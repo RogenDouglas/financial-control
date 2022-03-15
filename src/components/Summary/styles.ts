@@ -16,6 +16,11 @@ export const Container = styled.div`
       display: flex;
       align-items: center;
       justify-content: space-between;
+
+      img {
+        width: 48px;
+        height: 48px;
+      }
     }
 
     strong {
