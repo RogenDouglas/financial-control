@@ -1,24 +1,9 @@
-import { useEffect, useState } from "react";
-import { api } from "../../services/api";
+import { useTransaction } from "../../contexts/TransactionsProvider";
+import { convertCurrencyInBRL } from "../../utils/convertCurrency";
 import { Container } from "./styles";
 
-interface Transaction {
-  id: number;
-  description: string;
-  amount: number;
-  category: string;
-  type: string;
-  createdAt: string;
-}
-
 export function Transactions() {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-
-  useEffect(() => {
-    api
-      .get("/transaction")
-      .then((response) => setTransactions(response.data.transactions));
-  }, []);
+  const { transactions } = useTransaction();
 
   return (
     <Container>
@@ -36,10 +21,7 @@ export function Transactions() {
             <tr key={transaction.id}>
               <td>{transaction.description}</td>
               <td className={transaction.type}>
-                {new Intl.NumberFormat("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                }).format(transaction.amount)}
+                {convertCurrencyInBRL(transaction.amount)}
               </td>
               <td>{transaction.category}</td>
               <td>
